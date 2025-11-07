@@ -1,0 +1,34 @@
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
+
+// >>> Adição para fornecer um namespace a bibliotecas de terceiros que não o declaram
+subprojects { subproj ->
+    // aplica apenas para módulos Android que usam com.android.library
+    subproj.plugins.withId('com.android.library') {
+        def androidExt = subproj.extensions.findByName('android')
+        if (androidExt != null) {
+            // Se não houver namespace definido, atribui um temporário baseado no nome do projeto
+            if (!androidExt.hasProperty('namespace') || androidExt.namespace == null || androidExt.namespace.toString().trim() == '') {
+                def suggestedNamespace = "com.flutter.${subproj.name.replace('-', '_')}"
+                androidExt.namespace = suggestedNamespace
+                println "Set namespace for ${subproj.name} -> ${suggestedNamespace}"
+            }
+        }
+    }
+}
