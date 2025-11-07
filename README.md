@@ -1,4 +1,3 @@
-````markdown
 # 📱 Minimal Expense Tracker
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.x-blue)
@@ -35,7 +34,6 @@ Este projeto tem como objetivo praticar o uso de persistência local, gerenciame
 
    ```bash
    git clone https://github.com/SeuUsuario/minimal_expense_tracker.git
-````
 
 2. Acesse a pasta do projeto
 
